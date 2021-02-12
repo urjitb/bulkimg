@@ -73,7 +73,7 @@ function doStuff(folderPath) {
           jimp.read(path.join(folder, file))
             .then(lenna => {
               return lenna
-                .quality(100) // set JPEG quality
+                .quality(99) // decrease every time by a very small amount
                 .write(path.join(outputDir,file.split('.')[0] + '.jpg')); // save
             }).then((lenna) => {
               mainWindow.webContents.send('image:changed', outputDir + "/" + file);
