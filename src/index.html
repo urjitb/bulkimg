@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bulk Photo Uniqueizer</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <script defer src="render.js"></script>
+</head>
+
+<body>
+  <div class="center">
+
+    <div class="container is-max-desktop">
+      <h1 class="title">Bulk Photo Uniqueizer</h1>
+      <div class="notification is-light">
+
+        <form>
+          <div class="field">
+            <label class="label">Step 1. <p>Select output folder</p></label>
+
+            <button id="selectOutputDir" class="button is-info" type="submit">Select Folder</button>
+          </div>
+          <div class="field">
+            <label class="label">Step 2. <p>Select folder with images and apply random pixel shift.</p></label>
+
+            <button id="selectInputDir" class="button is-info" type="submit">Select Folder</button>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+    <div id='results'>
+    </br>
+    </div>
+  </div>
+
+
+
+
+  <script>
+    const electron = require('electron')
+    const { ipcRenderer } = electron
+
+    var folder = document.getElementById("selectOutputDir");
+    folder.onclick = () => {
+
+      ipcRenderer.send('selectOutputDirectory');
+    }
+
+
+    var folder = document.getElementById("selectInputDir");
+    folder.onclick = () => {
+
+      ipcRenderer.send('selectDirectory');
+    }
+
+    ipcRenderer.on('image:changed', (e, file) => {
+      document.querySelector('#results').innerHTML += `<div class="notification is-success is-light">
+  ${file} render completed
+</div>`
+    })
+
+  </script>
+</body>
+
+</html>
